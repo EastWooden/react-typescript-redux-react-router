@@ -17,8 +17,6 @@ class Dashbord extends React.Component {
   /**
    * render
    */
-
-
   public render() {
     return (
       <div className="chars-conatainer">
@@ -41,7 +39,6 @@ class Dashbord extends React.Component {
           </Chart>
         </div>
       </div>
-
     )
   }
 }

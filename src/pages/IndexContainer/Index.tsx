@@ -6,27 +6,31 @@ import './index.css';
 interface IpageState {
   collapsed: boolean;
   listClassArray: MenueItem[];
-  breadiconType:string;
+  breadiconType: string;
   breadtext: string;
 }
 interface IpageProps {
 
 }
 interface MenueItem {
-  key:string;
-  iconType: string;
-  itemtext:string
+  key: string;
+  iconType?: string;
+  itemtext: string;
+  group?: MenueItem[];
 }
 const hashHistory = createHashHistory({
   hashType: "noslash",
 });
+const SubMenu = Menu.SubMenu;
+
+
 class IndexContainer extends React.Component<IpageProps, IpageState> {
   constructor(props: any) {
     super(props);
     this.state = {
       collapsed: false,
-      breadiconType:'pie-chart',
-      breadtext: '数据统计',
+      breadiconType: 'home',
+      breadtext: '首页',
       listClassArray: [
         {
           key: '1',
@@ -35,13 +39,20 @@ class IndexContainer extends React.Component<IpageProps, IpageState> {
         },
         {
           key: '2',
-          iconType:'pie-chart',
-          itemtext:'数据统计'
+          iconType: 'pie-chart',
+          itemtext: '数据统计'
         },
         {
-          key: '3',
-          iconType:'read',
-          itemtext:'文章管理'
+          key: 'sub1',
+          iconType: 'read',
+          itemtext: '文章管理',
+          group: [{
+            key: '6',
+            itemtext: '文章发布',
+          },{
+            key:'7',
+            itemtext: '文章审核'
+          }]
         },
         {
           key: '4',
@@ -57,6 +68,9 @@ class IndexContainer extends React.Component<IpageProps, IpageState> {
     }
   }
 
+  componentWillMount() {
+    hashHistory.push('/home');
+  }
   toggleCollapsed = (): void => {
     this.setState({
       collapsed: !this.state.collapsed
@@ -68,6 +82,7 @@ class IndexContainer extends React.Component<IpageProps, IpageState> {
   handleClick = (item: any): void => {
     let bredicontype: string = '';
     let breadtext: string = '';
+    console.log(item);
     switch (parseInt(item.key)) {
       case 1:
         hashHistory.push('/home');
@@ -77,7 +92,7 @@ class IndexContainer extends React.Component<IpageProps, IpageState> {
       case 2:
         hashHistory.push('/dashbord');
         bredicontype = 'pie-chart';
-        breadtext='数据统计';
+        breadtext = '数据统计';
         break;
       case 3:
         hashHistory.push('/home')
@@ -93,6 +108,16 @@ class IndexContainer extends React.Component<IpageProps, IpageState> {
         hashHistory.push('/adv')
         bredicontype = 'global';
         breadtext = '广告管理';
+      case 6:
+        hashHistory.push('/mangeArticle/publish')
+        bredicontype = 'read';
+        breadtext = '文章发布';
+        break;
+      case 7:
+        hashHistory.push('/mangeArticle/examine')
+        bredicontype = 'read';
+        breadtext = '文章审核';
+        break;
       default:
         break;
     }
@@ -118,13 +143,27 @@ class IndexContainer extends React.Component<IpageProps, IpageState> {
           </div>
           <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']} onClick={this.handleClick} >
             {
-              this.state.listClassArray.map((item)=> {
-                return (
-                  <Menu.Item key={item.key}>
-                    <Icon type={item.iconType} />
-                    <span className="nav-text">{item.itemtext}</span>
-                  </Menu.Item>
-                )
+              this.state.listClassArray.map((item) => {
+                if (item.key.search(/sub/g) > -1) {
+                  return (
+                    <SubMenu key={item.key} title={<span><Icon type={item.iconType} /><span>{item.itemtext}</span></span>}>
+                      {
+                        item.group && item.group.map(chiitem => {
+                          return (
+                            <Menu.Item key={chiitem.key}>{chiitem.itemtext}</Menu.Item>
+                          )
+                        })
+                      }
+                    </SubMenu>
+                  )
+                } else {
+                  return (
+                    <Menu.Item key={item.key}>
+                      <Icon type={item.iconType} />
+                      <span className="nav-text">{item.itemtext}</span>
+                    </Menu.Item>
+                  )
+                }
               })
             }
           </Menu>
@@ -134,7 +173,7 @@ class IndexContainer extends React.Component<IpageProps, IpageState> {
             <Button type="primary" onClick={this.toggleCollapsed} style={{ marginBottom: 16 }}>
               <Icon type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'} />
             </Button>
-            <div style={{display: 'inline-block',marginLeft:20}}>
+            <div style={{ display: 'inline-block', marginLeft: 20 }}>
               <Breadcrumb>
                 <Breadcrumb.Item >
                   <Icon type="home" />

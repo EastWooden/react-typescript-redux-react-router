@@ -1,0 +1,19 @@
+.article-punlish{
+  background: #fff;
+  margin: 20px 40px;
+  padding:20px;
+}
+/* .article-search-form{
+  float: left;
+} */
+.btn-newadd{
+  position: relative;
+  top:3px;
+}
+.article-serarch{
+  display: flex;
+  justify-content: space-between;
+}
+.article-list{
+  padding-top: 20px;
+}
