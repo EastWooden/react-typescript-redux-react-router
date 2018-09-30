@@ -1,0 +1,11 @@
+.chars-conatainer{
+  display: flex;
+  justify-content: center;
+
+
+}
+.charts-article-number{
+  background: #fff;
+  margin-top:20px;
+  margin-left: 40px;
+}
