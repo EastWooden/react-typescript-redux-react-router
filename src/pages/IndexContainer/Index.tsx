@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { Layout, Menu, Icon, Button, Avatar, Breadcrumb } from 'antd';
 import createHashHistory from "history/createHashHistory"
+import { getOcr } from '../../utils/services'
+
 const { Header, Sider, Footer, Content } = Layout
 import './index.css';
 interface IpageState {
@@ -71,6 +73,23 @@ class IndexContainer extends React.Component<IpageProps, IpageState> {
   componentWillMount() {
     hashHistory.push('/home');
   }
+
+  componentDidMount () {
+    this.getIdCarInfo();
+  }
+
+  getIdCarInfo() {
+    getOcr().then((res: any) => {
+      console.log(res)
+      if(res) {
+        this.getIdCarInfo();
+      }
+
+    }).catch(err => {
+      console.log(err)
+    })
+  }
+
   toggleCollapsed = (): void => {
     this.setState({
       collapsed: !this.state.collapsed
@@ -134,7 +153,7 @@ class IndexContainer extends React.Component<IpageProps, IpageState> {
       <Layout>
         <Sider
           trigger={null}
-          collapsible={true} style={{ overflow: 'auto', height: '100vh', }}
+          collapsible={true} style={{ overflow: 'auto', height: '100vh', position: 'fixed', left: 0 }}
           collapsed={this.state.collapsed}
         >
           <div className="logo">
@@ -168,7 +187,7 @@ class IndexContainer extends React.Component<IpageProps, IpageState> {
             }
           </Menu>
         </Sider>
-        <Layout >
+        <Layout style={{ marginLeft: 200}} >
           <Header style={{ background: '#fff', paddingLeft: 20 }}>
             <Button type="primary" onClick={this.toggleCollapsed} style={{ marginBottom: 16 }}>
               <Icon type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'} />

@@ -1,0 +1,7 @@
+.articleClass{
+  display: flex;
+}
+.articleClass-formitem{
+  width: 220px;
+  margin-right: 10px;
+}

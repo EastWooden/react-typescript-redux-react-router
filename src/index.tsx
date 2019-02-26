@@ -5,14 +5,14 @@ import { HashRouter as Router } from 'react-router-dom';
 import Root from './router/Routes';
 import './index.css';
 import registerServiceWorker from './registerServiceWorker';
-// import { Layout, Menu, Icon } from 'antd';
-// import App from './App';
-// import IndexContainer from './pages/IndexContainer/Index'
-// const { Header, Sider, Content, Footer } = Layout;
+import store from './store';
+import { Provider } from 'react-redux';
 ReactDOM.render(
-  <Router>
-    <Root />
-  </Router>,
+  <Provider store={store()}>
+    <Router>
+      <Root />
+    </Router>
+  </Provider>,
   document.getElementById('root') as HTMLElement
 );
 registerServiceWorker();
