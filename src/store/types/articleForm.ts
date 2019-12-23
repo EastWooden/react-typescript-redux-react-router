@@ -1,1 +1,1 @@
-export const GETTAGS = 'GETTAGS'
+export const GETTAGS:string = 'GETTAGS'
