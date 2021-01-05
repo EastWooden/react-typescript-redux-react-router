@@ -10,7 +10,7 @@
     "@types/redux-promise": "^0.5.28",
     "@types/redux-thunk": "^2.1.0",
     "antd": "^3.9.2",
-    "axios": "^0.18.0",
+    "axios": "^0.21.1",
     "bizcharts": "^3.2.4",
     "draft-js": "^0.10.5",
     "draftjs-to-html": "^0.8.4",
